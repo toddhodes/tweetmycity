@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head profile="http://www.w3.org/2005/10/profile">
+       <title>tweetmycity</title>
+       <meta http-equiv="content-type" content="text/html"/>
+       <link rel="shortcut icon" type="image/ico" href="/tweetmycity/images/favicon.ico" />
+		 <link rel="stylesheet" href="/tweetmycity/css/normalize.css"/>
+       <link rel="stylesheet" href="/tweetmycity/css/typography.css"/>
+       <link rel="stylesheet" href="/tweetmycity/css/graphics.css"/>
+       <link rel="stylesheet" href="/tweetmycity/css/layout.css"/>
+       <link rel="stylesheet" href="/tweetmycity/css/forms.css"/>
+
+    <!--[if IE]>
+       <link rel="stylesheet" type="text/css" media="screen" href="css/fixes_IE.css" />
+    <![endif]-->
+	 <!--[if IE7]>
+       <link rel="stylesheet" type="text/css" media="screen" href="css/fixes_IE7.css" />
+    <![endif]-->
+    <!--[if IE 6]>
+       <link rel="stylesheet" type="text/css" media="screen" href="css/fixes_IE6.css" />
+    <![endif]-->
+ </head>
+
+ <body>
+   <div id="container">
+     <div id="branding">
+        <h1><a href="user">Tweet My City</a></h1>
+		  <!-- NOT SURE YET IF HAVING NAV AT TOP WOULD BE BETTER
+		  <ul>
+		     <li><a href="about.html">about</a></li>
+           <li><a href="supportedPhones.html">supported phones</a></li>
+		     <li><a href="terms.html" onclick='window.open("terms.html", "Terms_of_Service_Agreement", "width=600,height=500,status=yes,scrollbars=yes,resizable=no"); return false;'>terms of service agreement</a></li>
+           <li><a href="http://veriplace.com/privacy" onclick='window.open("http://veriplace.com/privacy", "Privacy_Policy", "width=600,height=500,status=yes,scrollbars=yes,resizable=no"); return false;'>privacy policy</a></li>
+		     <li><a href="faqs.html">faqs</a></li>
+		  </ul>
+		  -->
+     </div>
+     <!-- /branding -->
+
+     <div id="content" class="faqs">
+        <h2 id="header-faqs">Frequently Asked Questions</h2>
+	     <h3>Vestibulum feugiat dignissim turpis. Praesent consequat convallis sollicitudin?</h3>
+        <p>Etiam non magna eu dui accumsan egestas non sed metus. Ut volutpat arcu quis urna ullamcorper venenatis. Duis et vestibulum urna. Aenean pulvinar ante nec eros congue ut placerat nisi mattis.</p>
+		  
+		  <h3>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos?</h3>
+		  <p>Maecenas ante sem, gravida ultricies ullamcorper egestas, adipiscing in felis. Cras consectetur ornare risus eu tempor. Mauris at tortor quis justo adipiscing ornare viverra eget orci. In non purus quam, ac mattis leo.</p>
+		  
+		  <h3>Aenean rhoncus pharetra nisi?</h3>
+		  <p>Nunc imperdiet mi id tortor ultricies mollis. Nullam eget sapien vitae magna egestas porttitor a vel nisi.</p>
+        
+		  <div id="buttons">
+           <a class="button ok" href="user" tabindex="100">OK</a>
+		  </div>
+		  <!-- /buttons -->
+     </div>
+     <!-- /content -->
+
+     <div id="footer">
+		  <ul>
+		     <li><a href="about.html">about</a></li>
+           <li><a href="supportedPhones.html">supported phones</a></li>
+		     <li><a href="terms.html" onclick='window.open("terms.html", "Terms_of_Service_Agreement", "width=600,height=500,status=yes,scrollbars=yes,resizable=no"); return false;'>terms of service agreement</a></li>
+           <li><a href="http://veriplace.com/privacy" onclick='window.open("http://veriplace.com/privacy", "Privacy_Policy", "width=600,height=500,status=yes,scrollbars=yes,resizable=no"); return false;'>privacy policy</a></li>
+		     <li><a href="faqs.html">faqs</a></li>
+			  <li id="protectedBy">
+			     <div class="protectedBy-container">
+				     <div class="protectedBy-content">
+                    <span class="protectedBy">protected by</span> <div 
+							     class="veriplace"><a href="http://www.veriplace.com" 
+							     title="http://www.veriplace.com">Veriplace &reg;</a></div>
+				     </div>
+			      </div>
+		      </li>
+		  </ul>
+		  <div class="clear"></div>
+     </div>
+     <!-- /footer -->
+   </div>  
+   <!-- /container -->  
+ </body>
+</html>
+
+

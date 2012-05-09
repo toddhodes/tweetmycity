@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- Veriplace Web Framework objects -->
+  
+	<!-- Configuration (from property file) -->
+  
+  <bean id="properties" 
+        class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <property name="location" value="file:///tmp/veriplace-example.properties"/>
+  </bean>
+  
+  <bean id="placeholderConfig"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="properties" ref="properties"/>
+  </bean>
+  
+  <!-- The Veriplace instance is shared by all controllers in the application; it maintains
+       the Veriplace client connection and access token storage. -->
+       
+  <bean id="veriplace" class="com.veriplace.web.Veriplace">
+    <constructor-arg index="0" ref="properties" type="java.util.Properties" />
+    <property name="statusViewRenderer" ref="statusViewRenderer"/>
+  </bean>
+
+  <bean id="statusViewRenderer"
+        class="com.veriplace.web.spring.SpringStatusViewRenderer">
+    <property name="viewResolver" ref="viewResolver"/>
+    <property name="viewMap">
+      <map>
+        <!-- name of the view to display for the "please wait" condition -->
+        <entry key="waiting" value="wait"/>
+
+        <!-- name of the view to display for general error conditions -->
+        <entry key="error" value="error"/>
+
+        <!-- name of the view to display for get location errors -->
+        <entry key="error.PositionFailure" value="positionfailure"/>
+
+        <!-- name of the view to display for set location errors -->
+        <entry key="error.UpdateFailure" value="updatefailure"/>
+      </map>
+    </property>
+    <property name="stateAttributeName" value="veriplace"/>
+    <property name="callbackAttributeName" value="veriplace_callback"/>
+  </bean>
+  
+  <!-- Apply this interceptor to all controllers that need to get a user's location. -->
+  
+  <bean id="locationInterceptor" 
+        class="com.veriplace.web.spring.LocationDiscoveryInterceptor" >
+    <property name="veriplace" ref="veriplace" />
+    <property name="locationMode" value="zoom" />
+  </bean>
+
+  <!-- Apply this interceptor to all controllers that need to do user discovery without interaction. -->
+  
+  <bean id="immediateUserInterceptor" 
+        class="com.veriplace.web.spring.UserDiscoveryInterceptor" >
+    <property name="veriplace" ref="veriplace" />
+    <property name="interactionAllowed" value="false" />
+  </bean>
+
+  <!-- Apply this interceptor to all controllers that need to set a user's location. -->
+  
+  <bean id="setLocationInterceptor" 
+        class="com.veriplace.web.spring.SetLocationPermissionInterceptor" >
+    <property name="veriplace" ref="veriplace" />
+  </bean>
+  
+  <!-- Apply this interceptor to all controllers that need access to a VeriplaceContext or
+       VeriplaceState, if they don't already have one of the interceptors above. -->
+  
+  <bean id="veriplaceInterceptor" 
+        class="com.veriplace.web.spring.VeriplaceInterceptor" >
+    <property name="veriplace" ref="veriplace" />
+  </bean>
+
+	<!-- Controllers for Map Example -->
+
+  <!-- Get and display user location. -->
+  
+  <bean id="mapGetLocationController" 
+        class="com.veriplace.example.spring.map.MapGetLocationController">
+    <property name="supportedMethods" value="GET,POST" />
+    <property name="resultViewName" value="getlocation" />
+    <property name="googleApiKey" value="${googleApiKey}" />
+  </bean>
+  
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="interceptors">
+      <list>
+        <ref bean="locationInterceptor" />
+      </list>
+    </property>
+    <property name="mappings">
+      <value>
+        /locate=mapGetLocationController
+      </value>
+    </property>
+  </bean>
+  
+  <!-- Get and display user location, if user is logged in ("no interaction") -->
+  
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="interceptors">
+      <list>
+        <ref bean="immediateUserInterceptor" />
+        <ref bean="locationInterceptor" />
+      </list>
+    </property>
+    <property name="mappings">
+      <value>
+        /locate-immediate=mapGetLocationController
+      </value>
+    </property>
+  </bean>
+
+  <!-- Set and display user location. -->
+  
+  <bean id="mapSetLocationController" 
+        class="com.veriplace.example.spring.map.MapSetLocationController">
+    <property name="supportedMethods" value="GET,POST" />
+    <property name="formView" value="setlocation" />
+    <property name="successView" value="setlocation" />
+    <property name="commandClass" value="com.veriplace.client.SetLocationParameters" />
+    <property name="commandName" value="command" />
+  </bean>
+  
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="interceptors">
+      <list>
+        <ref bean="setLocationInterceptor" />
+      </list>
+    </property>
+    <property name="mappings">
+      <value>
+        /setlocation=mapSetLocationController
+      </value>
+    </property>
+  </bean>
+
+
+  <!-- User search. -->
+  
+  <bean id="mapFindUserController" 
+        class="com.veriplace.example.spring.map.MapFindUserController">
+    <property name="supportedMethods" value="GET,POST" />
+    <property name="formView" value="finduser" />
+    <property name="successView" value="forward:/locate" />
+    <property name="commandClass" value="com.veriplace.client.UserDiscoveryParameters" />
+  </bean>
+  
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="interceptors">
+      <list>
+        <ref bean="veriplaceInterceptor" />
+      </list>
+    </property>
+    <property name="mappings">
+      <value>
+        /finduser=mapFindUserController
+      </value>
+    </property>
+  </bean>
+
+
+  <!-- Tell Spring where to find our views (which in this case are JSPs). -->
+    
+  <bean id="viewResolver"
+      class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+    <property name="prefix" value="/WEB-INF/jsp/"/>
+    <property name="suffix" value=".jsp"/>
+  </bean>
+
+	
+</beans>
+
+
+<!--
+  Local Variables:
+    mode: nXML
+    nxml-child-indent: 2
+    nxml-attribute-indent: 2
+    indent-tabs-mode: nil
+  End:
+
+  ex: set softtabstop=2 tabstop=2 expandtab:
+-->

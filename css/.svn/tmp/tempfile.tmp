@@ -1,0 +1,67 @@
+/* GRAPHICS */
+
+#header-getStarted{
+	text-indent:-9999px; 
+	background: url(/tweetmycity/images/header_getStarted.png) 0 no-repeat; 
+	width:149px; 
+	height:21px;
+	}
+	
+#header-privacyPolicy{
+	text-indent:-9999px; 
+	background: url(/tweetmycity/images/header_privacyPolicy.png) 0 no-repeat; 
+	width:183px; 
+	height:26px;
+	}
+
+#header-privacyPolicy{
+	text-indent:-9999px; 
+	background: url(/tweetmycity/images/header_privacy.png) 0 no-repeat; 
+	width:183px; 
+	height:26px;
+	}
+
+/* BUTTONS */
+.button {
+	text-indent: -9000px;  
+	height: 25px;
+	line-height:25px;
+	/*\*/
+	display: block;
+	/*/
+	display: inline-block;
+ 	/**/	
+	text-decoration: none;
+	cursor: pointer;
+	padding: 0;
+	margin: 0 5px 0 0;
+	-moz-outline:none;
+	background-color:transparent;
+	border:0;
+	float:left; 
+}
+
+.button:focus::-moz-focus-inner, .tab:focus::-moz-focus-inner { 
+	/* removes dotted outline in FF */
+	-moz-outline: none; 
+	outline:none;
+	border:none;
+}
+button::-moz-focus-inner { 
+	/* removes dotted outline in FF */
+	-moz-outline: none; 
+	border: none;
+	outline:none;
+}
+
+.continue{background:url(/tweetmycity/images/btn_continue.png) 0 0 no-repeat; width:107px;}
+/*NO ROLLOVER YET... .continue:hover{background-position:-80px;}*/
+
+.getStarted{background:url(/tweetmycity/images/btn_getStarted.png) 0 0 no-repeat; width:107px;}
+/*NO ROLLOVER YET... .continue:hover{background-position:-80px;}*/
+
+.ok{background:url(/tweetmycity/images/btn_ok.png) 0 0 no-repeat; width:88px;}
+/*NO ROLLOVER YET... .shareWhereIAm:hover{background-position:-80px;}*/
+
+.submit{background:url(/tweetmycity/images/btn_submit.png) 0 0 no-repeat; width:88px;}
+/*NO ROLLOVER YET... .shareWhereIAm:hover{background-position:-80px;}*/

@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+
+<project name="veriplace-client" default="dist" basedir=".">
+
+  <property environment="env"/>
+
+  <property file="lib/build.properties"/>
+
+  <property name="name"           value="veriplace-client"/>
+  <property name="version"        value="1.2"/>
+
+  <property name="src"            value="src"/>
+  <property name="example"        value="example"/>
+  <property name="build"          value="build"/>
+  <property name="dist"           value="${build}/lib"/>
+  <property name="classes"        value="${build}/classes"/>
+  <property name="exampleclasses" value="${build}/example"/>
+  <property name="doc"            value="${build}/doc"/>
+  <property name="apidocs"        value="${doc}/apidocs"/>
+  <property name="tags"           value="${doc}/tags"/>
+
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.deprecation" value="true"/>
+  <property name="compile.optimize"    value="true"/>
+
+  <path id="compile.classpath">
+    <!--
+        The core Client classes only require these jars.
+    -->
+    <pathelement location="${oauth.jar}"/>
+
+    <pathelement location="${commons-codec.jar}"/>
+    <pathelement location="${commons-collections.jar}"/>
+    <pathelement location="${commons-httpclient.jar}"/>
+    <pathelement location="${commons-logging.jar}"/>
+
+    <!--
+        The Client Web Framework classes also require these jars.
+    -->
+    <pathelement location="${commons-lang.jar}"/>
+
+  	<pathelement location="${spring-beans.jar}"/>
+  	<pathelement location="${spring-core.jar}"/>
+  	<pathelement location="${spring-context.jar}"/>
+  	<pathelement location="${spring-web.jar}"/>
+  	<pathelement location="${spring-webmvc.jar}"/>
+
+    <pathelement location="${servletapi.jar}"/>
+    <pathelement location="${jspapi.jar}"/>
+
+    <!--
+        tweetmycity requries this
+    -->
+    <pathelement location="${twitter4j.jar}"/>
+    <pathelement location="${log4j.jar}"/>
+    <pathelement location="${wmutils-logging.jar}"/>
+  </path>
+
+  <path id="example.classpath">
+    <path refid="compile.classpath"/>
+    <pathelement location="${dist}/${name}-${version}.jar"/>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${classes}"/>
+    <javac srcdir="${src}"
+           destdir="${classes}"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+      <classpath refid="compile.classpath"/>
+      <compilerarg value="-Xlint:unchecked,deprecation"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <mkdir dir="${dist}"/>
+    <jar jarfile="${dist}/${name}-${version}.jar" 
+         basedir="${classes}">
+      <metainf dir="web/META-INF"/>
+    </jar>
+  </target>
+
+  <target name="javadoc" depends="compile">
+    <mkdir dir="${apidocs}"/>
+    <javadoc sourcepath="src"
+             destdir="${apidocs}"
+             packagenames="com.veriplace.*">
+      <classpath refid="compile.classpath"/>
+    </javadoc>
+  </target>
+
+  <target name="tlddoc">
+    <mkdir dir="${tags}"/>
+    <java fork="true" jar="${tlddoc.jar}"
+        failonerror="true">
+      <arg line="-d ${tags}/"/>
+      <arg value="web/META-INF/taglib.tld"/>
+    </java>
+  </target>
+
+  <target name="example-compile" depends="jar">
+    <!-- 
+         Compile 
+    -->
+    <mkdir dir="build"/>
+    <javac srcdir="src"
+           destdir="build"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+      <classpath refid="example.classpath"/>
+      <compilerarg value="-Xlint:unchecked,deprecation"/>
+    </javac>
+  </target>
+
+  <target name="example" depends="example-compile">
+    <mkdir dir="${dist}"/>
+
+    <!-- 
+         Build 
+    -->
+    <war destfile="${dist}/tweetmycity.war" 
+         webxml="web/web.xml">
+
+      <zipfileset dir="web" includes="*.html"/>
+      <zipfileset dir="css" includes="**/*.css" prefix="css"/>
+      <zipfileset dir="images" includes="**/*.gif,**/*.ico,**/*.png" prefix="images"/>
+      <lib file="${dist}/${name}-${version}.jar"/>
+      <lib file="${oauth.jar}"/>
+      <lib file="${commons-codec.jar}"/>
+      <lib file="${commons-collections.jar}"/>
+      <lib file="${commons-httpclient.jar}"/>
+      <lib file="${commons-logging.jar}"/>
+      <lib file="${twitter4j.jar}"/>
+      <lib file="${log4j.jar}"/>
+      <lib file="${wmutils-logging.jar}"/>
+      <classes dir="build/classes"/>
+      <zipfileset dir="etc" includes="commons-logging.properties"
+                  prefix="WEB-INF/classes"/>
+    </war>
+  </target>
+
+  <!--target name="dist" depends="jar, javadoc, tlddoc, example"/-->
+  <target name="dist" depends="jar, example"/>
+
+  <target name="clean">
+    <delete dir="${build}" quiet="true"/>
+  </target>
+
+</project>
+
+<!--
+  Local Variables:
+    mode: nXML
+    sgml-indent-level: 2
+    indent-tabs-mode: nil
+  End:
+
+  vim: softtabstop=2 tabstop=2 expandtab shiftwidth=2
+-->

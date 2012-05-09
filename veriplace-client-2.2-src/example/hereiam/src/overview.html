@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>Veriplace Here I Am Demo (Source)</title>
+</head>
+<body>
+<h1 style="text-align:center;">
+Veriplace Here I Am Demo (Source)
+</h1>
+<h3 style="text-align:center;">
+Version 1.0 (Mar 2010)
+</h3>
+<p style="text-align:center;">
+<a href="http://developer.veriplace.com/">http://developer.veriplace.com</a><br/>
+<a href="http://veriplace.com/">http://veriplace.com</a>
+</p>
+
+<h2>
+Introduction
+</h2>
+
+<p>
+<b>Here I Am</b> is a simple Java servlet-based web application that demonstrates
+the basic user discovery and location APIs of the
+<a href="http://developer.veriplace.com/devportal/developerguide/about.html">Veriplace
+location platform</a>.  The application gives each user a free trial period to make
+a limited number of location requests.  The user may be accessing the application
+through a browser on a mobile device, and requesting the location of that device;
+or, if using a desktop web browser, the user can locate a device somewhere else
+that has been registered with Veriplace by logging in with a mobile number and
+password.
+</p>
+
+<p>
+The flow is as follows:
+</p>
+
+<ol>
+<li> Home page:  user clicks a form button. </li>
+<li> Application uses the OAuth protocol to detect whether the user is
+     currently identifiable by Veriplace, i.e. is accessing the application
+     through a Veriplace-enabled mobile device or a web browser that has
+     already logged into Veriplace.  If so, skip to step 4. </li>
+<li> Application displays a page explaining that the user will now be asked to
+     log in or register their mobile device.  The user is then redirected to
+     the Veriplace site to do this, and provides the mobile number to Veriplace
+     only - the application receives only an opaque identifier.  If this user
+     has not previously granted permission for this particular application to
+     get their location, Veriplace also asks for this permission (which the
+     user can restrict or revoke at any time). </li>
+<li> Application checks its own internal list of users to see if this user has
+     exceeded the maximum number of location requests or the free trial period. </li>
+<li> Application asks Veriplace for the user's location.  It uses two request
+     modes:  if Veriplace already has a recent location for this user (which is
+     usually the case with smartphones), the application can receive it quickly
+     without being billed for the request; otherwise it makes a request for a
+     new on-demand location, which is billable.  (However, you can always try
+     this demo without incurring charges by using one of the simulated test
+     phone numbers provided on the Veriplace Developer Portal.) </li>
+<li> Application displays a result page showing the current location. </li>
+</ol>
+
+<p>
+A somewhat fancier-looking but functionally identical version of Here I Am is
+publicly accessible at <a href="http://demo.veriplace.com/">http://demo.veriplace.com/</a>.
+For this source code distribution, we've removed nonessential parts of the
+application to make it clearer and more portable:
+</p>
+
+<ul>
+<li> It stores the list of users in memory rather than in a database, so it
+     will forget them if the application server is restarted. </li>
+<li> It does not include the JavaScript code to create a live map (as can be
+     done with various free web services), but simply shows the street address
+     and/or latitude-longitude coordinates. </li>
+</ul>
+
+<h2>
+Building
+</h2>
+
+<p>
+To build and deploy this application, you need <a href="http://java.sun.com/javase/index.jsp">JDK</a>
+1.5 or higher, <a href="http://ant.apache.org/">Ant</a> 1.7, and a servlet
+container such as <a href="http://tomcat.apache.org/">Apache Tomcat</a>.
+</p>
+
+<p>
+Run <tt>ant</tt> to build the application.  This compiles the Java code and
+creates a web archive (<tt>.war</tt>) file in the <tt>build/lib</tt> directory.
+It also generates HTML <a href="http://java.sun.com/j2se/javadoc/">Javadoc</a>
+documentation in <tt>build/doc</tt> which you can use as an overview of the
+source code.
+</p>
+
+<h2>
+Configuring
+</h2>
+
+<p>
+Before deploying the web archive to your servlet container, you'll need to
+provide a configuration file containing Veriplace application credentials
+(consumer key and secret).  You get these by creating a free <a
+href="http://developer.veriplace.com/devportal/developerguide/getting-started.html">developer
+account</a> on the Veriplace Developer Portal, where you also provide the
+application information that the user will see when interacting with Veriplace.
+Unless and until you submit the application for certification by Veriplace,
+you will only be able to locate a limited number of real phones of your
+choice, as well as virtual users with simulated location data for testing.
+</p>
+
+<p>
+The application expects the file to be called <tt>hereiam.properties</tt>, and
+looks for it in a location that's defined in <tt>build.xml</tt> in the
+property <bb>app.properties.path</bb>; the default location is <tt>/tmp</tt>.
+There's a sample version of the file in this distribution, showing the format
+of the parameters.  Copy your application's credentials into it and put it in
+<tt>/tmp</tt> or wherever you'd like it to be.
+
+<h2>
+Implementation Notes
+</h2>
+
+<p>
+The application consists of four Java servlet classes defining the behavior of
+its main pages; a simple data structure to keep track of the list of users and
+their trial periods; and a set of <a href="http://java.sun.com/products/jsp/">Java
+Server Pages</a> which it uses as templates for the HTML output.
+</p>
+
+<p>
+Using the Web Tier of our Client API, the application interacts with the
+Veriplace platform as follows:
+</p>
+
+<ol>
+<li> (in <a href="com/veriplace/demo/web/StartPage.html">StartPage.java</a>)
+     makes a non-interactive <a
+     href="http://developer.veriplace.com/devportal/developerguide/user-api.html">user
+     discovery</a> request, to determine whether Veriplace already knows who the
+     current user is; </li>
+<li> (in <a href="com/veriplace/demo/web/LoginPage.html">LoginPage.java</a>) if
+     necessary, makes an interactive user discovery request, to let the user
+     log in or register with Veriplace; </li>
+<li> (in <a href="com/veriplace/demo/web/LocatePage.html">LocatePage.java</a>) makes
+     a <a href="http://developer.veriplace.com/devportal/developerguide/location-api.html">location
+     authorization request</a>, to confirm that the application may locate the
+     user - asking for permission interactively only if it was not already granted;</li>
+<li> (in <a href="com/veriplace/demo/web/LocatePage.html">LocatePage.java</a>)
+     makes a "freedom mode" location request, which can obtain a recent location
+     quickly (and free of charge) in many cases, especially if the user has a
+     smartphone; </li>
+<li> (in <a href="com/veriplace/demo/web/LocatePage.html">LocatePage.java</a>)
+     if such a location wasn't available, makes a "zoom mode" location request,
+     which contacts the user's phone to get a new location. </li>
+</ol>
+
+<p>
+Steps 1, 2, and 3 use an authorization process - based on the <a href="http://oauth.net">OAuth</a>
+1.0A protocol - that involves redirecting the user's browser to the Veriplace site,
+then redirecting back to the previously active page on your site once an access
+token is obtained.  Thus, each of these servlets will be called at least twice:
+first leading up to the point where it makes the authorization request and is
+redirected, and then again when it comes back from the redirect.  This process
+is handled transparently by the Web Tier, so that in each case the application
+can just call a single method that means "start the request, redirect and exit;
+or, if we were already redirected, get the result of the request and continue."
+Similarly, the Web Tier takes care of displaying an auto-refreshing "please
+wait" page during the location request in step 5.
+</p>
+
+<p>
+This is not the only way to use the Veriplace APIs; it's just the simplest way
+to add the authorization and location request steps to a typical form-based web
+application, if you want to delegate those steps to the Veriplace site.  Other
+kinds of applications might want to request location access for a phone number
+the user has already provided, or to make location requests as part of a
+background task rather than during a user interaction.  For these and other
+features, see the Veriplace Java SDK API reference in this distribution or at
+<a href="http://developer.veriplace.com/docs/java">http://developer.veriplace.com/docs/java</a>.
+</p>
+
+<h2>
+License
+</h2>
+
+<p>
+The Here I Am source code is distributed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache
+License 2.0</a>.
+</p>
+
+</body>
+</html>

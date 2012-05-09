@@ -1,0 +1,174 @@
+<html xmlns:javaee="http://java.sun.com/xml/ns/javaee" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>vp
+          (Tag Library Documentation Generator - Generated Documentation)
+        </title>
+<link rel="stylesheet" type="text/css" href="../stylesheet.css" title="styie">
+</head>
+<script>
+            function asd()
+            {
+            parent.document.title="vp (Tag Library Documentation Generator - Generated Documentation)";
+            }
+          </script>
+<body bgcolor="white" onload="asd();">
+<a name="navbar_top"></a>
+<table border="0" width="100%" cellpadding="1" cellspacing="0">
+<tr>
+<td COLSPAN="3" BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><a NAME="navbar_top_firstrow"></a>
+<table BORDER="0" CELLPADDING="0" CELLSPACING="3">
+<tr ALIGN="center" VALIGN="top">
+<td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a href="../overview-summary.html"><font CLASS="NavBarFont1"><b>Overview</b></font></a>&nbsp;</td><td BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev">    &nbsp;<font CLASS="NavBarFont1Rev">&nbsp;Library&nbsp;</font>&nbsp;</td><td BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><font CLASS="NavBarFont1">&nbsp;Tag&nbsp;</font></td><td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a HREF="../help-doc.html"><font CLASS="NavBarFont1"><b>Help</b></font></a>&nbsp;</td>
+</tr>
+</table>
+</td><td ALIGN="right" VALIGN="top" ROWSPAN="3"><em></em></td>
+</tr>
+<tr>
+<td BGCOLOR="white" CLASS="NavBarCell2"><font SIZE="-2"></font></td><td BGCOLOR="white" CLASS="NavBarCell2"><font SIZE="-2">
+                &nbsp;<a HREF="../index.html" TARGET="_top"><b>FRAMES</b></a>&nbsp;
+                &nbsp;<a HREF="tld-summary.html" TARGET="_top"><b>NO FRAMES</b></a>&nbsp;
+                <script></script>
+<noscript>
+<a HREF="../alltags-noframe.html" TARGET=""><b>All Tags</b></a>
+</noscript>
+</font></td>
+</tr>
+</table>
+<hr>
+<h2>vp</h2>
+<hr>
+<b>Standard Syntax:</b>
+<br>
+<code>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                
+                    &lt;%@ taglib prefix="vp" uri="http://www.veriplace.com/tags" %&gt;<br>
+</code>
+<br>
+<b>XML Syntax:</b>
+<br>
+<code>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                
+                    &lt;anyxmlelement xmlns:vp="http://www.veriplace.com/tags" /&gt;<br>
+</code>
+<hr>
+<pre>Custom tags for using the <a href="../apidocs/com/veriplace/web/package-summary.html">Veriplace web framework</a> from JSP.</pre>
+<p></p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+<td colspan="2"><font size="+2"><b>Tag Library Information</b></font></td>
+</tr>
+<tr>
+<td>Display Name</td><td><i>None</i></td>
+</tr>
+<tr>
+<td>Version</td><td>1.0</td>
+</tr>
+<tr>
+<td>Short Name</td><td>vp</td>
+</tr>
+<tr>
+<td>URI</td><td>http://www.veriplace.com/tags</td>
+</tr>
+</table>
+            &nbsp;
+            <p></p>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+<td colspan="2"><font size="+2"><b>Tag Summary</b></font></td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="setup.html">setup</a></b></td><td><p> Makes Veriplace APIs available to the current page. Place this tag on any page that uses Veriplace functionality; it must appear before any other Veriplace custom tags. </p></td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="require-user.html">require-user</a></b></td><td>Triggers a user discovery request, if the current Veriplace user is not known yet. The rest of the page will not execute until a valid user ID is available; will redirect to an error page if the request fails.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="require-location.html">require-location</a></b></td><td>Requests the current user's location from Veriplace. The rest of the page will not execute until a valid location is available; will redirect to an error page if the request fails.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="require-location-permission.html">require-location-permission</a></b></td><td>Requests permission for Veriplace to locate the current user, but doesn't actually acquire a location. The rest of the page will not execute until permission has been obtained; will redirect to an error page if the request fails. Use this tag if you want to identify the user and obtain permission ahead of time, when the actual location request will be made by a different page. The tag returns the current Veriplace user object.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="require-set-location.html">require-set-location</a></b></td><td>Requests a permission token from Veriplace for changing the current user's location (not currently supported). In a future release, this capability will be selectively enabled for applications with additional security constraints.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="require-location-update.html">require-location-update</a></b></td><td>Update the current user's location in Veriplace. The rest of the page will not execute until location is successfully updated; will redirect to an error page if the request fails.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="longitude.html">longitude</a></b></td><td>Outputs the longitude of the current location. This is equivalent to <tt>&lt;%= location.getLongitude() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="latitude.html">latitude</a></b></td><td>Outputs the latitude of the current location. This is equivalent to <tt>&lt;%= location.getLatitude() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="accuracy.html">accuracy</a></b></td><td>Outputs the uncertainty of the current location. This is equivalent to <tt>&lt;%= location.getAccuracy() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="uncertainty.html">uncertainty</a></b></td><td>Outputs the uncertainty of the current location. This is equivalent to <tt>&lt;%= location.getAccuracy() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="street.html">street</a></b></td><td>Outputs the street address of the current location. This is equivalent to <tt>&lt;%= location.getStreet() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="neighborhood.html">neighborhood</a></b></td><td>Outputs the neighborhood name of the current location. This is equivalent to <tt>&lt;%= location.getNeighborhood() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="city.html">city</a></b></td><td>Outputs the city name of the current location. This is equivalent to <tt>&lt;%= location.getCity() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="state.html">state</a></b></td><td>Outputs the state name of the current location. This is equivalent to <tt>&lt;%= location.getState() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="postal-code.html">postal-code</a></b></td><td>Outputs the postal code of the current location. This is equivalent to <tt>&lt;%= location.getPostal() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="country-code.html">country-code</a></b></td><td>Outputs the country code of the current location. This is equivalent to <tt>&lt;%= location.getCountryCode() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="location-error.html">location-error</a></b></td><td>Outputs the error/status message, if any, from the current location. This is equivalent to <tt>&lt;%= location.getMessage() %&gt;</tt>, but doesn't require you to have the location in a named variable, and won't cause an error if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="address-line.html">address-line</a></b></td><td>Outputs the street address (if any), neighborhood (if any), city, state, and postal code of the current location. Does nothing if there is no location.</td>
+</tr>
+<tr bgcolor="white" class="TableRowColor">
+<td width="15%"><b><a href="user-fields.html">user-fields</a></b></td><td>Generates hidden form field(s) containing the current Veriplace user ID, if any. Use this inside a form if the current page has already gone through user and/or location discovery, to pass on the user identity to the page that handles the form request; otherwise, that page will have to repeat the user discovery process.</td>
+</tr>
+</table>
+              &nbsp;
+              <p></p>
+<a name="navbar_bottom"></a>
+<table border="0" width="100%" cellpadding="1" cellspacing="0">
+<tr>
+<td COLSPAN="3" BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><a NAME="navbar_bottom_firstrow"></a>
+<table BORDER="0" CELLPADDING="0" CELLSPACING="3">
+<tr ALIGN="center" VALIGN="top">
+<td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a href="../overview-summary.html"><font CLASS="NavBarFont1"><b>Overview</b></font></a>&nbsp;</td><td BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev">    &nbsp;<font CLASS="NavBarFont1Rev">&nbsp;Library&nbsp;</font>&nbsp;</td><td BGCOLOR="#EEEEFF" CLASS="NavBarCell1"><font CLASS="NavBarFont1">&nbsp;Tag&nbsp;</font></td><td BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    &nbsp;<a HREF="../help-doc.html"><font CLASS="NavBarFont1"><b>Help</b></font></a>&nbsp;</td>
+</tr>
+</table>
+</td><td ALIGN="right" VALIGN="top" ROWSPAN="3"><em></em></td>
+</tr>
+<tr>
+<td BGCOLOR="white" CLASS="NavBarCell2"><font SIZE="-2"></font></td><td BGCOLOR="white" CLASS="NavBarCell2"><font SIZE="-2">
+                &nbsp;<a HREF="../index.html" TARGET="_top"><b>FRAMES</b></a>&nbsp;
+                &nbsp;<a HREF="tld-summary.html" TARGET="_top"><b>NO FRAMES</b></a>&nbsp;
+                <script></script>
+<noscript>
+<a HREF="../alltags-noframe.html" TARGET=""><b>All Tags</b></a>
+</noscript>
+</font></td>
+</tr>
+</table>
+<hr>
+<small><i>
+            Java, JSP, and JavaServer Pages are trademarks or registered 
+            trademarks of Sun Microsystems, Inc. in the US and other countries.
+            Copyright 2002-3 Sun Microsystems, Inc.
+            4150 Network Circle
+            Santa Clara, CA 95054, U.S.A.
+            All Rights Reserved. 
+            </i></small>
+</body>
+</html>

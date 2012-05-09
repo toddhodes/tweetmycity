@@ -1,0 +1,450 @@
+<?xml version="1.0"?>
+
+<project name="veriplace-client" default="dist" basedir=".">
+
+  <property environment="env"/>
+
+  <property file="lib/build.properties"/>
+
+  <property name="name"           value="veriplace-client"/>
+  <property name="version"        value="2.2"/>
+
+  <dirname property="home" file="${ant.file}"/>
+  
+  <property name="src"            value="src"/>
+  <property name="unit"           value="unit"/>
+  <property name="example"        value="example"/>
+  <property name="build"          location="build"/>
+  <property name="dist"           value="${build}/lib"/>
+  <property name="classes"        value="${build}/classes"/>
+  <property name="unitclasses"    value="${build}/unitclasses"/>
+  <property name="exampleclasses" value="${build}/example"/>
+  <property name="doc"            value="${build}/doc"/>
+  <property name="apidocs"        value="${doc}/apidocs"/>
+  <property name="tagdocs"        value="${doc}/tagdocs"/>
+
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.deprecation" value="true"/>
+  <property name="compile.optimize"    value="true"/>
+
+  <path id="compile.classpath">
+    <!--
+        The core Client classes only require these jars.
+    -->
+    <pathelement location="${oauth.jar}"/>
+
+    <pathelement location="${commons-codec.jar}"/>
+    <pathelement location="${commons-collections.jar}"/>
+    <pathelement location="${commons-httpclient.jar}"/>
+    <pathelement location="${commons-logging.jar}"/>
+
+    <!--
+        The Client Web Framework classes also require these jars.
+    -->
+    <pathelement location="${commons-lang.jar}"/>
+
+    <pathelement location="${spring-beans.jar}"/>
+    <pathelement location="${spring-context.jar}"/>
+    <pathelement location="${spring-core.jar}"/>
+    <pathelement location="${spring-web.jar}"/>
+    <pathelement location="${spring-webmvc.jar}"/>
+
+    <pathelement location="${servletapi.jar}"/>
+    <pathelement location="${jspapi.jar}"/>
+  </path>
+
+  <path id="example-compile.classpath">
+    <path refid="compile.classpath"/>
+    <pathelement location="${dist}/${name}-${version}.jar"/>
+  </path>
+
+  <path id="unit-compile.classpath">
+    <path refid="example-compile.classpath"/>
+   
+    <pathelement location="${junit.jar}"/>
+  	<pathelement location="${spring-test.jar}"/>
+  </path>
+
+  <path id="unit.classpath">
+    <path refid="unit-compile.classpath"/>
+    <pathelement location="${unitclasses}"/>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${classes}"/>
+    <javac srcdir="${src}"
+           destdir="${classes}"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+      <classpath refid="compile.classpath"/>
+      <compilerarg value="-Xlint:unchecked,deprecation"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <mkdir dir="${dist}"/>
+    <jar jarfile="${dist}/${name}-${version}.jar" 
+         basedir="${classes}">
+      <metainf dir="web/META-INF"/>
+    </jar>
+  </target>
+
+  <target name="unit-compile" depends="jar">
+    <mkdir dir="${unitclasses}"/>
+    <javac srcdir="${unit}"
+           destdir="${unitclasses}"
+           debug="${compile.debug}"
+           deprecation="false"
+           optimize="${compile.optimize}">
+       <classpath refid="unit-compile.classpath"/>
+       <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+  </target>
+
+  <target name="unit" depends="unit-compile" unless="skip.unit">
+    <junit
+       haltonfailure="false"
+       showoutput="true"
+       failureProperty="test.failed"
+       fork="true"
+       dir="unit">
+      <formatter type="brief" usefile="false"/>
+      <test name="com.veriplace.client.TestClient"/>
+      <test name="com.veriplace.client.TestUser"/>
+      <test name="com.veriplace.client.TestLocation"/>
+      <test name="com.veriplace.client.TestGetLocationAPI"/>
+      <test name="com.veriplace.client.TestSetLocationAPI"/>
+      <test name="com.veriplace.client.TestUserDiscoveryAPI"/>
+      <test name="com.veriplace.client.TestUserDiscoveryParameters"/>
+      <test name="com.veriplace.client.TestPermissionAPI"/>
+      <test name="com.veriplace.client.factory.TestDefaultClientFactory"/>
+      <test name="com.veriplace.client.factory.TestDefaultCallbackFactory"/>
+      <test name="com.veriplace.client.factory.TestLocationFactory"/>
+      <test name="com.veriplace.client.factory.TestUserFactory"/>
+      <test name="com.veriplace.client.store.TestFileTokenStore"/>
+      <test name="com.veriplace.client.store.TestMemoryTokenStore"/>
+      <test name="com.veriplace.client.store.TestMemoryUserTokenStore"/>
+      <test name="com.veriplace.client.util.TestAbstractRequestManager"/>
+      <test name="com.veriplace.web.TestDefaultRedirector"/>
+      <test name="com.veriplace.web.TestVeriplace"/>
+      <test name="com.veriplace.web.servlet.TestAbstractVeriplaceServlet"/>
+      <test name="com.veriplace.web.servlet.TestVeriplaceServletHelper"/>
+      <test name="com.veriplace.web.views.TestAbstractViewRenderer"/>
+      <classpath refid="unit.classpath"/>
+    </junit>
+    <fail if="test.failed">Unit tests failed!!! See preceding output for details.</fail>
+  </target>
+
+  <target name="javadoc" depends="compile" unless="skip.javadoc">
+    <mkdir dir="${apidocs}"/>
+    <javadoc sourcepath="src"
+             destdir="${apidocs}"
+             packagenames="com.veriplace.client,
+    	                   com.veriplace.client.*,
+    	                   com.veriplace.web,
+    	                   com.veriplace.web.servlet,
+    	                   com.veriplace.web.spring,
+    	                   com.veriplace.web.views">
+      <classpath refid="compile.classpath"/>
+      <link href="http://java.sun.com/products/jsp/2.1/docs/jsp-2_1-pfd2/" />
+      <link href="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/" />
+      <link href="http://static.springsource.org/spring/docs/2.5.x/api/" />
+      <link href="http://static.springsource.org/spring/docs/2.5.x/api/" />
+      <link href="http://developer.veriplace.com/docs/java/api-oauth/" />
+    </javadoc>
+  </target>
+
+  <target name="tlddoc" depends="compile" unless="skip.javadoc">
+    <mkdir dir="${tagdocs}"/>
+    <java fork="true" jar="${tlddoc.jar}"
+        failonerror="true">
+      <arg line="-d ${tagdocs}/"/>
+      <arg value="web/META-INF/taglib.tld"/>
+    </java>
+  </target>
+
+  <!--
+      Compile the example applications. 
+      
+      There are currently size such applications, but two of them
+      are pure JSP and do not need to be compiled.
+  -->
+  <target name="example-compile" depends="jar">
+    <!-- 
+         Compile the basic example. 
+    -->
+    <mkdir dir="${exampleclasses}/basic"/>
+    <javac srcdir="${example}/basic"
+           destdir="${exampleclasses}/basic"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+      <classpath refid="example-compile.classpath"/>
+      <compilerarg value="-Xlint:unchecked,deprecation"/>
+    </javac>
+
+    <!-- 
+         Compile the map servlet example.
+    -->
+    <mkdir dir="${exampleclasses}/servlet-map"/>
+    <javac srcdir="${example}/servlet-map"
+           destdir="${exampleclasses}/servlet-map"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+      <classpath refid="example-compile.classpath"/>
+      <compilerarg value="-Xlint:unchecked,deprecation"/>
+    </javac>
+
+    <!-- 
+         Compile the weather servlet example.
+    -->
+    <mkdir dir="${exampleclasses}/servlet-weather"/>
+    <javac srcdir="${example}/servlet-weather"
+           destdir="${exampleclasses}/servlet-weather"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+      <classpath refid="example-compile.classpath"/>
+      <compilerarg value="-Xlint:unchecked,deprecation"/>
+    </javac>
+
+    <!-- 
+         Compile the map Spring MVC example.
+    -->
+    <mkdir dir="${exampleclasses}/spring-map"/>
+    <javac srcdir="${example}/spring-map"
+           destdir="${exampleclasses}/spring-map"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+      <classpath refid="example-compile.classpath"/>
+      <compilerarg value="-Xlint:unchecked,deprecation"/>
+    </javac>
+  	
+    <!-- 
+         Compile the Swing example.
+    -->
+    <mkdir dir="${exampleclasses}/swing"/>
+    <javac srcdir="${example}/swing"
+           destdir="${exampleclasses}/swing"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+      <classpath refid="example-compile.classpath"/>
+      <compilerarg value="-Xlint:unchecked,deprecation"/>
+    </javac>
+  </target>
+
+  <target name="example-builds" depends="example-compile">
+    <mkdir dir="${dist}"/>
+
+    <!-- 
+         Build the basic example. 
+    -->
+    <war destfile="${dist}/basic-example.war" 
+         webxml="${example}/basic/web/web.xml">
+
+      <zipfileset dir="${example}/basic/web" includes="index.html"/>
+      <zipfileset dir="${example}/html" includes="configuration.html"/>
+      <zipfileset dir="${example}/css" includes="**/*.css" prefix="css"/>
+      <zipfileset dir="${example}/images" includes="**/*.gif,**/*.ico,**/*.png" prefix="images"/>
+      <lib file="${dist}/${name}-${version}.jar"/>
+      <lib file="${oauth.jar}"/>
+      <lib file="${commons-codec.jar}"/>
+      <lib file="${commons-collections.jar}"/>
+      <lib file="${commons-httpclient.jar}"/>
+      <lib file="${commons-logging.jar}"/>
+      <classes dir="${exampleclasses}/basic"/>
+    </war>
+
+    <!-- 
+         Build the map JSP example. 
+    -->
+    <war destfile="${dist}/jsp-map-example.war" 
+         webxml="${example}/jsp-map/web/web.xml">
+
+      <zipfileset dir="${example}/jsp-map/web" includes="index.html"/>
+      <zipfileset dir="${example}/html" includes="configuration.html"/>
+      <zipfileset dir="${example}/jsp-map/web/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/css" includes="**/*.css" prefix="css"/>
+      <zipfileset dir="${example}/images" includes="**/*.gif,**/*.ico,**/*.png" prefix="images"/>
+      <lib file="${dist}/${name}-${version}.jar"/>
+      <lib file="${oauth.jar}"/>
+      <lib file="${commons-codec.jar}"/>
+      <lib file="${commons-collections.jar}"/>
+      <lib file="${commons-httpclient.jar}"/>
+      <lib file="${commons-lang.jar}"/>
+      <lib file="${commons-logging.jar}"/>
+      <lib file="${jstl.jar}"/>
+      <lib file="${standard.jar}"/>
+    </war>
+
+    <!-- 
+         Build the weather JSP example. 
+    -->
+    <war destfile="${dist}/jsp-weather-example.war" 
+         webxml="${example}/jsp-weather/web/web.xml">
+
+      <zipfileset dir="${example}/jsp-weather/web" includes="index.html"/>
+      <zipfileset dir="${example}/html" includes="configuration.html"/>
+      <zipfileset dir="${example}/jsp-weather/web/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/css" includes="**/*.css" prefix="css"/>
+      <zipfileset dir="${example}/images" includes="**/*.gif,**/*.ico,**/*.png" prefix="images"/>
+      <lib file="${dist}/${name}-${version}.jar"/>
+      <lib file="${oauth.jar}"/>
+      <lib file="${commons-codec.jar}"/>
+      <lib file="${commons-collections.jar}"/>
+      <lib file="${commons-httpclient.jar}"/>
+      <lib file="${commons-lang.jar}"/>
+      <lib file="${commons-logging.jar}"/>
+      <lib file="${jstl.jar}"/>
+      <lib file="${standard.jar}"/>
+    </war>
+
+    <!-- 
+         Build the map Servlet example. 
+    -->
+    <war destfile="${dist}/servlet-map-example.war" 
+         webxml="${example}/servlet-map/web/web.xml">
+
+      <zipfileset dir="${example}/servlet-map/web" includes="index.html"/>
+      <zipfileset dir="${example}/html" includes="configuration.html"/>
+      <zipfileset dir="${example}/shared-map/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/css" includes="**/*.css" prefix="css"/>
+      <zipfileset dir="${example}/images" includes="**/*.gif,**/*.ico,**/*.png" prefix="images"/>
+      <lib file="${dist}/${name}-${version}.jar"/>
+      <lib file="${oauth.jar}"/>
+      <lib file="${commons-codec.jar}"/>
+      <lib file="${commons-collections.jar}"/>
+      <lib file="${commons-httpclient.jar}"/>
+      <lib file="${commons-lang.jar}"/>
+      <lib file="${commons-logging.jar}"/>
+      <lib file="${jstl.jar}"/>
+      <lib file="${standard.jar}"/>
+      <classes dir="${exampleclasses}/servlet-map"/>
+    </war>
+
+    <!-- 
+         Build the weather Servlet example. 
+    -->
+    <war destfile="${dist}/servlet-weather-example.war" 
+         webxml="${example}/servlet-weather/web/web.xml">
+
+      <zipfileset dir="${example}/servlet-weather/web" includes="index.html"/>
+      <zipfileset dir="${example}/html" includes="configuration.html"/>
+      <zipfileset dir="${example}/servlet-weather/web/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/css" includes="**/*.css" prefix="css"/>
+      <zipfileset dir="${example}/images" includes="**/*.gif,**/*.ico,**/*.png" prefix="images"/>
+      <lib file="${dist}/${name}-${version}.jar"/>
+      <lib file="${oauth.jar}"/>
+      <lib file="${commons-codec.jar}"/>
+      <lib file="${commons-collections.jar}"/>
+      <lib file="${commons-httpclient.jar}"/>
+      <lib file="${commons-lang.jar}"/>
+      <lib file="${commons-logging.jar}"/>
+      <lib file="${jstl.jar}"/>
+      <lib file="${standard.jar}"/>
+      <classes dir="${exampleclasses}/servlet-weather"/>
+    </war>
+
+    <!-- 
+         Build the map Spring MVC example. 
+    -->
+    <war destfile="${dist}/spring-map-example.war" 
+         webxml="${example}/spring-map/web/web.xml">
+
+      <zipfileset dir="${example}/spring-map/web" includes="index.html"/>
+      <zipfileset dir="${example}/html" includes="configuration.html"/>
+      <zipfileset dir="${example}/spring-map/web" includes="*.xml" prefix="WEB-INF" />
+      <zipfileset dir="${example}/shared-map/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/jsp" includes="*.jsp" prefix="WEB-INF/jsp" />
+      <zipfileset dir="${example}/css" includes="**/*.css" prefix="css"/>
+      <zipfileset dir="${example}/images" includes="**/*.gif,**/*.ico,**/*.png" prefix="images"/>
+      <lib file="${dist}/${name}-${version}.jar"/>
+      <lib file="${oauth.jar}"/>
+      <lib file="${commons-codec.jar}"/>
+      <lib file="${commons-collections.jar}"/>
+      <lib file="${commons-httpclient.jar}"/>
+      <lib file="${commons-lang.jar}"/>
+      <lib file="${commons-logging.jar}"/>
+      <lib file="${jstl.jar}"/>
+      <lib file="${standard.jar}"/>
+      <lib file="${spring-beans.jar}"/>
+      <lib file="${spring-core.jar}"/>
+      <lib file="${spring-context.jar}"/>
+      <lib file="${spring-web.jar}"/>
+      <lib file="${spring-webmvc.jar}"/>
+      <classes dir="${exampleclasses}/spring-map"/>
+    </war>
+
+    <!-- 
+         Build the Swing example. 
+    -->
+    <jar jarfile="${dist}/swing-example.jar" 
+         basedir="${exampleclasses}/swing">
+       <manifest>
+          <attribute name="Main-Class" value="com.veriplace.example.swing.Main"/>
+       </manifest>
+       <zipfileset src="${dist}/${name}-${version}.jar"/>
+       <zipfileset src="${oauth.jar}"/>
+       <zipfileset src="${commons-codec.jar}"/>
+       <zipfileset src="${commons-collections.jar}"/>
+       <zipfileset src="${commons-httpclient.jar}"/>
+       <zipfileset src="${commons-lang.jar}"/>
+       <zipfileset src="${commons-logging.jar}"/>
+    </jar>
+    
+  </target>
+
+  <target name="example-hereiam" unless="skip.example-hereiam">
+    <ant antfile="build.xml" dir="example/hereiam" inheritAll="false">
+      <property name="home" value="${home}/example/hereiam"/>
+      <property name="dist" value="${dist}"/>
+      <property name="lib" value="${home}/lib"/>
+      <property name="doc" value="${build}/doc/hereiam"/>
+    </ant>
+  </target>
+  
+  <target name="example" depends="example-builds, example-hereiam"
+          unless="skip.example"/>
+  
+  <target name="test" depends="unit"/>
+  <target name="dist" depends="jar, unit, javadoc, tlddoc, example"/>
+
+  <target name="clean">
+    <delete dir="${build}" quiet="true"/>
+  </target>
+
+  <target name="help">
+    <echo message="Available ant targets for the Veriplace Client:" />
+    <echo message="" />
+    <echo message=" dist            - Build the distribution" />
+    <echo message=" clean           - Delete the distribution" />
+    <echo message="" />
+    <echo message=" compile         - Compile the source files" />
+    <echo message=" jar             - Build the distribution jar file" />
+    <echo message=" javadoc         - Generate the source documentation" />
+    <echo message=" tlddoc          - Generate the tag library documentation" />
+    <echo message=" unit-compile    - Compile the unit tests" />
+    <echo message=" unit            - Run the unit tests" />
+    <echo message=" example-compile - Compile the examples" />
+    <echo message=" example         - Build the example applications" />
+  </target>
+
+</project>
+
+<!--
+  Local Variables:
+    mode: nXML
+    sgml-indent-level: 2
+    indent-tabs-mode: nil
+  End:
+
+  vim: softtabstop=2 tabstop=2 expandtab shiftwidth=2
+-->

@@ -1,0 +1,8 @@
+com.veriplace.client
+com.veriplace.client.factory
+com.veriplace.client.store
+com.veriplace.client.util
+com.veriplace.web
+com.veriplace.web.servlet
+com.veriplace.web.spring
+com.veriplace.web.views

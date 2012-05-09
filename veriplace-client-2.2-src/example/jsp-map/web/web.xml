@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+  <display-name>Veriplace Example</display-name>
+
+  <context-param>
+    <param-name>veriplace.properties-file</param-name>
+    <param-value>/tmp/veriplace-example.properties</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>veriplace.views.map.prefix</param-name>
+    <param-value>/WEB-INF/jsp/</param-value>
+  </context-param>
+
+  <context-param>
+    <!-- name of the view to display for the "please wait" condition -->
+    <param-name>veriplace.views.map.waiting</param-name>
+    <param-value>wait</param-value>
+  </context-param>
+
+  <context-param>
+    <!-- name of the view to display for general error conditions -->
+    <param-name>veriplace.views.map.error</param-name>
+    <param-value>error</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>veriplace.views.map.error.PositionFailure</param-name>
+    <!-- name of the view to display for get location errors -->
+    <param-value>positionfailure</param-value>
+  </context-param>
+
+  <context-param>
+    <!-- name of the view to display for set location errors -->
+    <param-name>veriplace.views.map.error.UpdateFailure</param-name>
+    <param-value>updatefailure</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>mapGetLocation</servlet-name>
+    <jsp-file>/WEB-INF/jsp/getlocation.jsp</jsp-file>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>mapFindUser</servlet-name>
+    <jsp-file>/WEB-INF/jsp/finduser.jsp</jsp-file>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>mapFindUserId</servlet-name>
+    <jsp-file>/WEB-INF/jsp/finduserid.jsp</jsp-file>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>mapSetLocation</servlet-name>
+    <jsp-file>/WEB-INF/jsp/setlocation.jsp</jsp-file>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>mapGetLocation</servlet-name>
+    <url-pattern>/locate</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>mapSetLocation</servlet-name>
+    <url-pattern>/setlocation</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>mapFindUser</servlet-name>
+    <url-pattern>/finduser</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>mapFindUserId</servlet-name>
+    <url-pattern>/finduserid</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+
+<!--
+  Local Variables:
+    mode: nXML
+    nxml-child-indent: 2
+    nxml-attribute-indent: 2
+    indent-tabs-mode: nil
+  End:
+
+  ex: set softtabstop=2 tabstop=2 expandtab:
+  -->

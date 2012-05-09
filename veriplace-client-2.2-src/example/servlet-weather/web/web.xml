@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+  <display-name>Veriplace Example</display-name>
+
+  <context-param>
+    <param-name>veriplace.properties-file</param-name>
+    <param-value>/tmp/veriplace-example.properties</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>veriplace.views.weather.prefix</param-name>
+    <param-value>/WEB-INF/jsp/</param-value>
+  </context-param>
+
+  <context-param>
+    <!-- name of the view to display for the "please wait" condition -->
+    <param-name>veriplace.views.weather.waiting</param-name>
+    <param-value>wait</param-value>
+  </context-param>
+
+  <context-param>
+    <!-- name of the view to display for general error conditions -->
+    <param-name>veriplace.views.weather.error</param-name>
+    <param-value>error</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>weather</servlet-name>
+    <servlet-class>com.veriplace.example.servlet.weather.WeatherServlet</servlet-class>
+    <init-param>
+      <param-name>veriplace.views</param-name>
+      <param-value>weather</param-value>
+    </init-param>    
+    <init-param>
+      <param-name>veriplace.defaultview</param-name>
+      <param-value>weather</param-value>
+    </init-param>    
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>weather</servlet-name>
+    <url-pattern>/weather</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>weather</servlet-name>
+    <url-pattern>/locate</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+
+<!--
+  Local Variables:
+    mode: nXML
+    nxml-child-indent: 2
+    nxml-attribute-indent: 2
+    indent-tabs-mode: nil
+  End:
+
+  ex: set softtabstop=2 tabstop=2 expandtab:
+  -->

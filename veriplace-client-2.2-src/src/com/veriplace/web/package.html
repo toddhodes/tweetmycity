@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+<p>
+These classes simplify the process of using Veriplace user/location discovery within
+a servlet-based application.  The basic setup is that the application maintains an
+instance of {@link com.veriplace.web.Veriplace}, and passes each servlet request to
+its {@link com.veriplace.web.Veriplace#open(HttpServletRequest, HttpServletResponse)}
+method to obtain a {@link com.veriplace.web.VeriplaceState} for that request.
+The application can then call {@link com.veriplace.web.Veriplace} methods such as
+{@link com.veriplace.web.Veriplace#requireLocation(VeriplaceState)} to obtain whatever
+information you need in the VeriplaceState.  Redirects and callbacks are handled
+almost transparently:  Veriplace throws an exception to indicate that the request
+flow needs to be interrupted, and constructs a callback URL to preserve all properties
+of the current state.
+</p>
+<p>
+There are several levels of simplification you can use for this process, depending on
+the structure of your application:
+</p>
+<ul>
+<li>
+	If you derive your servlet class from {@link com.veriplace.web.servlet.AbstractVeriplaceServlet},
+	you can specify the information your servlet needs from Veriplace with the 
+	{@link com.veriplace.web.servlet.UsesVeriplace} annotation.  Any necessary redirects
+	and callbacks will be done before your servlet code executes.
+</li>
+<li>
+	If you use the Spring Web MVC framework, you can set up your Veriplace objects using
+	the standard bean configuration system, and apply interceptors (see
+	{@link com.veriplace.web.spring.VeriplaceInterceptor}) which will perform the
+	necessary Veriplace requests before your controller executes.
+</li>
+<li>
+	Within an ordinary JSP, you can use the Veriplace <a href="../../../../../../tags/index.html" target="_top">custom tag library</a>
+	to access user and location data.
+</li>
+</ul>
+
+</body>
+</html>

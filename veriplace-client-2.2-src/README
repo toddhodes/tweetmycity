@@ -1,0 +1,152 @@
+Veriplace Client (Source), Release 2.2 (March 2010)
+---------------------------------------------------
+http://developer.veriplace.com
+http://veriplace.com
+
+
+1. INTRODUCTION
+
+Veriplace provides secure APIs for accessing and managing user location 
+information. This distribution includes libraries to integrate with 
+these APIs as a procedural operation and as part of a web framework.
+
+The Veriplace Developer APIs use the OAuth standard for authentication and 
+authorization and use XML over HTTP, following the REST model, to define API 
+function. The classes within this distribution provide an object-oriented 
+interface to these functions.
+
+
+2. WHAT'S NEW
+
+The 2.2 release includes client APIs for new platform features:
+
+  - GetLocationAPI.getPermittedUsers() returns a list of users that the
+    application has permission to locate.
+  - UserDiscoveryAPI.getUsersByParameters() performs the same user lookup
+    as getUserByParameters, but for a batch of multiple users.
+
+Previous changes:
+
+The 2.1 release included several client API changes for convenience.
+
+ - The client can be configured to return a user's last known location if
+   available instead of throwing an exception, or to transform location
+   results in any other way you choose.  See LocationFilter and
+   DefaultClientFactory.USE_LAST_KNOWN_LOCATION.
+ - All required and optional configuration parameters for the client, which
+   were previously specified with overloaded constructors, are now
+   properties of the ClientConfiguration class.
+ - Configuration property names are now clearer and more consistent, and all
+   have a "veriplace." prefix to avoid conflict with application-defined
+   properties.  The old property names will still work.
+ - In the web tier classes, the "require___" methods formerly part of the
+   Veriplace class and required you to pass the current VeriplaceState
+   instance as their first parameter.  These methods can now be called
+   directly on a VeriplaceState instance, so you will rarely have to use
+   the Veriplace instance except to instantiate a VeriplaceState.
+
+The 2.0 release included many changes and bug fixes.
+
+ - The web framework was rewritten for clarity, ease of use, and
+   testability.
+ - Unit tests were added for all major functionality.
+ - Exceptions were introduced for common error conditions, in lieu 
+   of returning null or error values. OAuth error reporting was added
+   to exceptions where appropriate.
+ - Callback generation was abstracted to an interface and a default
+   implementation.
+ - Additional API support was provided for retrieving previously obtained 
+   location obserations, for verifying and deleting known access tokens, 
+   and for certain non-interactive use cases.
+
+Previous changes:
+
+As of release 1.2:
+
+ - OAuth Core 1.0 Revision A is now supported and employed by default.
+   You can force the Client to use the original OAuth Core 1.0
+   specification by setting the Revision parameter to Core1_0 in the Client
+   constructor, or by setting the property "veriplace.rev_a=false" when using
+   the ClientFactory; however, this is not recommended since Revision A provides
+   additional security and is always supported by the Veriplace server.
+
+
+3. RELEASE INFO
+
+The Veriplace Client was built using JDK 1.5 and Ant 1.7. It uses the 
+Servlet API 2.4.
+
+The optional Web Framework include additional support for the Servlet API 
+and for Java Server Pages 2.0 using the Standard Tag Library 1.1. Additional 
+support is provided for Spring MVC 2.x; the Veriplace Client was built with 
+Spring 2.5.3, which is included in this distribution.
+
+Integration is provided with Commons Logging 1.1. Alternate logging 
+implementations, such as log4j, can be employed by using the appropriate 
+commons logging configuration.
+
+Unit tests - utilizing the JUnit test framework - are also provided.
+
+
+4. BUILDING
+
+Run 'ant' to build the distribution and the examples from source.
+
+The examples demonstrate how to use the Veriplace Client under common 
+circumstances. Source for these examples can be found in the /example 
+directory. After building, Web Archive (.war) files will be found in
+the /build/lib directory for the web applications.
+
+The examples include:
+
+ hereiam
+ 
+   An example of a typical use of Veriplace APIs to identify a user and request
+   location, using interactive methods when necessary but skipping them if
+   possible. This is a somewhat simplified version of the same demo that is at
+   http://demo.veriplace.com/.
+  
+ basic-example
+
+   A simplistic demonstration of the Veriplace API that uses only the core
+   Veriplace client interface and that makes as few assumptions as possible
+   about web tier technologies.
+
+ jsp-weather-example
+
+   A demonstration of location-enabling a weather application using Java Server
+   Pages and no additional compiled code.
+
+ servlet-weather-example
+
+   A demonstration of location-enabling a weather application using a Servlet.
+
+ jsp-map-example
+
+   A comprehensive demonstration of the Veriplace APIs showing user location on 
+   a map. Implemented using Java Server Pages and no additional compiled code.
+
+ servlet-map-example
+
+   A comprehensive demonstration of the Veriplace APIs showing user location on 
+   a map. Implemented using Servlets.
+
+ spring-map-example
+
+   A comprehensive demonstration of the Veriplace APIs showing user location on 
+   a map. Implemented using the Spring MVC framework.
+ 
+ swing-example
+ 
+   A GUI application using the Java Swing framework, demonstrating how to use
+   basic Veriplace APIs when there is no web front-end.  The build script
+   packages all required libraries into a single jar file; to run the 
+   application, execute "java -jar swing-example.jar".
+
+
+5. LICENSE
+
+The Veriplace Client and SDK are distributed under the Apache 2.0 license (included).
+
+
+Copyright 2008-2010 WaveMarket, Inc.

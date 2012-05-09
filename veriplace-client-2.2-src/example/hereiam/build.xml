@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<project name="hereiam" default="dist" basedir=".">
+
+  <property environment="env"/>
+  
+  <dirname property="home" file="${ant.file}"/>
+  <property name="lib" location="${home}/../../lib"/>
+  
+  <property name="build.properties" value="${home}/build.properties"/>  
+  <property file="${build.properties}"/>
+
+  <property name="app.name"    value="hereiam"/>
+  <property name="app.properties.path" value="/tmp"/>
+  <property name="app.properties.file" value="hereiam.properties"/>
+  
+  <property name="src"         value="${home}/src"/>
+  <property name="build"       value="${home}/build"/>
+  <property name="dist"        value="${build}/lib"/>
+  <property name="classes"     value="${build}/classes"/>
+  <property name="doc"         value="${build}/doc"/>
+  <property name="temp"        value="${build}/temp"/>
+  <property name="webapp.name" value="${app.name}"/>
+ 
+  <property name="compile.debug"       value="true"/>
+  <property name="compile.deprecation" value="true"/>
+  <property name="compile.optimize"    value="true"/>
+
+  <path id="compile.classpath">
+    <files includes="${libs.compile}"/>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${classes}"/>
+    <javac srcdir="${src}"
+           destdir="${classes}"
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+      <classpath refid="compile.classpath"/>
+      <compilerarg value="-Xlint:unchecked,deprecation"/>
+    </javac>
+  </target>
+  
+  <target name="webapp" depends="compile">
+    <mkdir dir="${dist}"/>
+    <mkdir dir="${temp}"/>
+    <copy todir="${temp}" flatten="true">
+      <files includes="${libs.compile} ${libs.deploy}"/>
+    </copy>
+    
+    <!-- Make a copy of the web.xml file, inserting the actual properties file path
+         in place of the @PROPERTIES_FILE@ placeholder -->
+    <filter token="PROPERTIES_FILE"
+            value="${app.properties.path}/${app.properties.file}"/>
+    <copy todir="${temp}" file="web/WEB-INF/web.xml" filtering="true"/>
+    
+    <war destfile="${dist}/${webapp.name}.war" 
+         webxml="${temp}/web.xml">
+      <zipfileset dir="web" includes="**/*.xml,**/*.jsp,**/*.css,**/*.gif,**/*.png"
+                  excludes="WEB-INF/web.xml"/>
+      <lib dir="${temp}" includes="*.jar"/>
+      <classes dir="${classes}"/>
+    </war>
+  </target>
+  
+  <target name="javadoc" depends="compile">
+    <mkdir dir="${doc}"/>
+    <javadoc sourcepath="${src}"
+             destdir="${doc}"
+             overview="${src}/overview.html"
+             packagenames="com.veriplace.demo.*">
+      <classpath refid="compile.classpath"/>
+      <link href="http://java.sun.com/products/jsp/2.1/docs/jsp-2_1-pfd2/" />
+      <link href="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/" />
+      <link href="http://developer.veriplace.com/docs/java/api/" />
+      <link href="http://developer.veriplace.com/docs/java/api-oauth/" />
+    </javadoc>
+  </target>
+  
+  <target name="clean">
+    <delete dir="${build}" quiet="true"/>
+  </target>
+
+  <target name="dist" depends="webapp, javadoc"/>
+
+  <target name="help">
+    <echo message="Available ant targets for the Here I Am example:" />
+    <echo message="" />
+    <echo message=" dist            - Build the distribution" />
+    <echo message=" clean           - Delete the distribution" />
+    <echo message="" />
+    <echo message=" compile         - Compile the source files" />
+    <echo message=" webapp          - Create the web application archive" />
+    <echo message=" javadoc         - Generate the source documentation" />
+  </target>
+  
+</project>

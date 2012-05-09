@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+<p>
+Veriplace can be configured to display "status views" to the end user under certain
+conditions.  These include errors (failed location request) and intermediate steps
+in a request flow (a "please wait" page).  To avoid dependencies on any specific web
+application framework, Veriplace abstracts this process into a {@link com.veriplace.web.views.StatusViewRenderer}
+interface.
+</p>
+<p>
+The SDK includes simple implementations of this interface for servlets
+({@link com.veriplace.web.servlet.ServletStatusViewRenderer}) and Spring servlets
+({@link com.veriplace.web.spring.SpringStatusViewRenderer}).  If you use the
+{@link com.veriplace.web.servlet.AbstractVeriplaceServlet} class or the JSP tags,
+a ServletStatusViewRenderer is created for you; see {@link com.veriplace.web.servlet.VeriplaceServletHelper}
+for how to customize its properties.  Spring applications should define their own
+SpringStatusViewRenderer bean if desired. 
+</p>
+<p>
+You do not need to use a StatusViewRenderer at all, as long as your code checks for
+exceptions and returns the appropriate output.  Be sure to handle the {@link com.veriplace.web.WaitingException}
+if you will be making asynchronous requests.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+  <display-name>Veriplace Client Example</display-name>
+
+  <context-param>
+    <param-name>veriplace.properties-file</param-name>
+    <param-value>/tmp/veriplace-example.properties</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>userDiscovery</servlet-name>
+    <servlet-class>com.veriplace.example.client.UserDiscovery</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>userDiscoveryByMobileNumber</servlet-name>
+    <servlet-class>com.veriplace.example.client.UserDiscoveryByMobileNumber</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>getLocation</servlet-name>
+    <servlet-class>com.veriplace.example.client.GetLocation</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>userDiscovery</servlet-name>
+    <url-pattern>/user</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>userDiscoveryByMobileNumber</servlet-name>
+    <url-pattern>/mobileNumber</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>getLocation</servlet-name>
+    <url-pattern>/location</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+
+<!--
+  Local Variables:
+    mode: nXML
+    nxml-child-indent: 2
+    nxml-attribute-indent: 2
+    indent-tabs-mode: nil
+  End:
+
+  ex: set softtabstop=2 tabstop=2 expandtab:
+  -->

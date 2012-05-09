@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+Provides primary {@link com.veriplace.client.Client} interface to Veriplace
+Developer APIs.
+
+The Veriplace Developer APIs use the OAuth protocol for secure authentication 
+and authorization; users of the Client interface are encouraged to familiarize
+themselves with OAuth.
+
+<h2>Usage</h2>
+
+Developers must register with Veriplace to obtain credentials, including:
+<ul>
+ <li>An OAuth consumer_key</li>
+ <li>An OAuth consumer_secret</li>
+ <li>An optional application-specific OAuth Access Token</li>
+ <li>A Veriplace server base URL, e.g. "https://sandbox.veriplace.com"</li>
+</ul>
+
+The {@link com.veriplace.client.Client} class is the primary interface and
+should be constructed with these credentials. Developers may also configure
+how the Client manages OAuth Request Tokens by providing an instance of {@link
+com.veriplace.client.store.TokenStore}.
+
+<pre>
+  Client client = new Client(consumerKey, consumerSecret, token, baseUrl, tokenStore);
+</pre>
+
+Users may prefer to employ the {@link
+com.veriplace.client.factory.ClientFactory} to create Client instances.
+
+<h2>APIs</h2>
+
+A Client instance provides programmatic access to each of the Veriplace APIs, 
+including:
+
+<ul>
+ <li>{@link com.veriplace.client.UserDiscoveryAPI}</li>
+ <li>{@link com.veriplace.client.GetLocationAPI}</li>
+ <li>{@link com.veriplace.client.SetLocationAPI}</li>
+ <li>{@link com.veriplace.client.PermissionAPI}</li>
+</ul>
+
+</body>
+</html>

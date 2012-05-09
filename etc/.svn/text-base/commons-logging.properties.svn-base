@@ -1,0 +1,2 @@
+org.apache.commons.logging.LogFactory=com.wavemarket.wmutils.logging.WMLogFactory
+com.wavemarket.wmutils.logging.WMLogFactory.appName=tweetmycity

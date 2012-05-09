@@ -1,0 +1,5 @@
+/* FIXES IE7 */
+
+/* CENTER LAYOUT: needs this even though it didn't before */
+body{text-align:center;}
+#container{text-align:left;}

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+  <display-name>Veriplace Demo Application</display-name>
+
+  <context-param>
+    <param-name>application.name</param-name>
+    <param-value>hereiam</param-value>
+  </context-param>
+
+
+  <!-- Configuration parameters used by the Application class -->
+  
+  <context-param>
+    <param-name>veriplacePropertiesFile</param-name>
+    <param-value>@PROPERTIES_FILE@</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>maxDaysToLocate</param-name>
+    <param-value>7</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>maxLocatesPerUser</param-name>
+    <param-value>3</param-value>
+  </context-param>
+
+
+  <!-- Standard servlet mappings for JSPs and static files -->
+  
+  <servlet>
+    <servlet-name>jsp</servlet-name>
+    <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+    <init-param>
+      <param-name>fork</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>xpoweredBy</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>trimSpaces</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <load-on-startup>3</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.gif</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.png</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.ico</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.css</url-pattern>
+  </servlet-mapping>
+
+
+  <!-- servlets with custom controllers -->
+  
+  <servlet>
+    <servlet-name>startPage</servlet-name>
+    <servlet-class>com.veriplace.demo.web.StartPage</servlet-class>
+    <init-param>
+      <param-name>startView</param-name>
+      <param-value>home.jsp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>loginPageUrl</param-name>
+      <param-value>login</param-value>
+    </init-param>
+    <init-param>
+      <param-name>locatePageUrl</param-name>
+      <param-value>locate</param-value>
+    </init-param>
+    <init-param>
+      <param-name>errorView</param-name>
+      <param-value>error.jsp</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>loginPage</servlet-name>
+    <servlet-class>com.veriplace.demo.web.LoginPage</servlet-class>
+    <init-param>
+      <param-name>startView</param-name>
+      <param-value>login.jsp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>locatePageUrl</param-name>
+      <param-value>locate</param-value>
+    </init-param>
+    <init-param>
+      <param-name>unsupportedPhoneView</param-name>
+      <param-value>unsupportedPhone.jsp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>errorView</param-name>
+      <param-value>error.jsp</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>locatePage</servlet-name>
+    <servlet-class>com.veriplace.demo.web.LocatePage</servlet-class>
+    <init-param>
+      <param-name>mapPageUrl</param-name>
+      <param-value>showMap</param-value>
+    </init-param>
+    <init-param>
+      <param-name>maxUsageView</param-name>
+      <param-value>maxUsage.jsp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>noLocationView</param-name>
+      <param-value>noLocation.jsp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>noPermissionView</param-name>
+      <param-value>noPermission.jsp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>errorView</param-name>
+      <param-value>error.jsp</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>mapPage</servlet-name>
+    <servlet-class>com.veriplace.demo.web.MapPage</servlet-class>
+    <init-param>
+      <param-name>startPageUrl</param-name>
+      <param-value>.</param-value>
+    </init-param>
+    <init-param>
+      <param-name>mapView</param-name>
+      <param-value>map.jsp</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+
+  <!-- servlets that are just JSPs with no custom code -->
+  
+  <servlet>
+    <servlet-name>aboutPage</servlet-name>
+    <jsp-file>/WEB-INF/jsp/about.jsp</jsp-file>
+  </servlet>
+
+  <servlet>
+    <servlet-name>faqPage</servlet-name>
+    <jsp-file>/WEB-INF/jsp/faq.jsp</jsp-file>
+  </servlet>
+
+  <servlet>
+    <servlet-name>supportedPhonesPage</servlet-name>
+    <jsp-file>/WEB-INF/jsp/supportedPhones.jsp</jsp-file>
+  </servlet>
+
+  <servlet>
+    <servlet-name>tosPage</servlet-name>
+    <jsp-file>/WEB-INF/jsp/tos.jsp</jsp-file>
+  </servlet>
+  
+  
+  <!-- URL mappings -->
+  
+  <servlet-mapping>
+    <servlet-name>startPage</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>loginPage</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>locatePage</servlet-name>
+    <url-pattern>/locate</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>mapPage</servlet-name>
+    <url-pattern>/showMap</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>aboutPage</servlet-name>
+    <url-pattern>/about</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>faqPage</servlet-name>
+    <url-pattern>/faq</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>supportedPhonesPage</servlet-name>
+    <url-pattern>/supportedPhones</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>tosPage</servlet-name>
+    <url-pattern>/tos</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+
+<!--
+  Local Variables:
+    mode: nXML
+    nxml-child-indent: 2
+    nxml-attribute-indent: 2
+    indent-tabs-mode: nil
+  End:
+
+  ex: set softtabstop=2 tabstop=2 expandtab:
+  -->

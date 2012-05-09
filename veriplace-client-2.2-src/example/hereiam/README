@@ -1,0 +1,28 @@
+
+Veriplace Here I Am Demo (Source)
+---------------------------------
+
+Here I Am is a simple Java servlet-based web application that demonstrates
+the basic user discovery and location APIs opf the Veriplace location platform.
+The application gives each user a free trial period to make a limited number of
+location requests.  The user may be accessing the application through a browser
+on a mobile device, and requesting the location of that device; or, if using a
+desktop web browser, the user can locate a device somewhere else that has been
+registered with Veriplace by logging in with a mobile number and password.
+
+A somewhat fancier-looking but functionally identical version of Here I Am is
+publicly accessible at http://demo.veriplace.com/.  For this source code
+distribution, we've removed nonessential parts of the application to make it
+clearer and more portable, e.g. it keeps data in memory or in the HTTP session
+rather than in a database.
+
+Unlike the rest of the SDK examples, this one has its own build script to make
+it more self-contained.  To build and deploy, you need JDK 1.5 or higher, Ant
+1.7, and a servlet container such as Apache Tomcat.  Run "ant" to build; this
+compiles the Java code and creates a web archive (.war) file in the build/lib
+directory.  It also generates HTML Javadoc documentation in build/doc which you
+can use as an overview of the source code.
+
+More details are in src/overview.html, which also appears in the Javadoc pages.
+
+The Here I Am source code is distributed under the Apache License 2.0.

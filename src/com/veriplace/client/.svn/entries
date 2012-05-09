@@ -1,0 +1,130 @@
+10
+
+dir
+152338
+svn+ssh://svn/wm/users/todd/tweetmycity/src/com/veriplace/client
+svn+ssh://svn/wm
+
+
+
+2009-08-11T08:09:04.973474Z
+107115
+todd
+
+UserDiscoveryAPI.java
+file
+
+
+
+
+2009-07-17T09:12:09.000000Z
+2c7d5ef2f57d5c816eaf4d2d17f46780
+2009-08-11T08:09:04.973474Z
+107115
+todd
+
+GetLocationAPI.java
+file
+
+
+
+
+2009-07-17T09:12:09.000000Z
+6231fb1e18216c32793d06e635251d38
+2009-08-11T08:09:04.973474Z
+107115
+todd
+
+factory
+dir
+
+Location.java
+file
+
+
+
+
+2009-07-17T09:12:09.000000Z
+35798d10236bcc39df7424159f9beb88
+2009-08-11T08:09:04.973474Z
+107115
+todd
+
+API.java
+file
+
+
+
+
+2009-07-17T09:12:09.000000Z
+5f724db02d5f71284c0640fba40fcaa3
+2009-08-11T08:09:04.973474Z
+107115
+todd
+
+store
+dir
+
+util
+dir
+
+LocationMode.java
+file
+
+
+
+
+2009-07-17T09:12:09.000000Z
+a52559109a712dc1c81703978baf871c
+2009-08-11T08:09:04.973474Z
+107115
+todd
+
+SetLocationAPI.java
+file
+
+
+
+
+2009-07-17T09:12:09.000000Z
+5a556ebf91a0ac69d07560f7f412bff2
+2009-08-11T08:09:04.973474Z
+107115
+todd
+
+Client.java
+file
+
+
+
+
+2009-07-17T09:12:09.000000Z
+a9e886cdb5081a7d98af3fca942217d0
+2009-08-11T08:09:04.973474Z
+107115
+todd
+
+package.html
+file
+
+
+
+
+2009-07-17T09:12:09.000000Z
+7b8abb5ba49829a46fb4c0c4afba4dba
+2009-08-11T08:09:04.973474Z
+107115
+todd
+
+User.java
+file
+
+
+
+
+2009-07-17T09:12:09.000000Z
+aa45a5538d3996146b802aea3f3b8052
+2009-08-11T08:09:04.973474Z
+107115
+todd
+

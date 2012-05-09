@@ -1,0 +1,8 @@
+/* FIXES IE */
+
+/* CENTER LAYOUT: needs this even though it didn't before */
+body{text-align:center;}
+#container{text-align:left;}
+fieldset.checkbox input{border:0; width:auto;}
+#footer{width:950px}
+#content.terms ol.ordered-list li h3{padding-left:.5em;}
