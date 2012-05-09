@@ -2,8 +2,7 @@ tweetmycity
 ===========
 
 sources to tweetmycity.org
-
-(by todd hodes, todd@toddh.org)
+(todd@toddh.org)
 
 uses the Veriplace.com OAuth API and the twiter OAuth API to 
 
